@@ -1,0 +1,241 @@
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" /> 
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<title>EINVis</title>
+	<link rel="icon" href="./favicon.ico" mce_href="./favicon.ico" type="image/x-icon">
+	<link rel="shortcut icon" href="./favicon.ico" mce_href="./favicon.ico" type="image/x-icon">
+	<meta name="GENERATOR" content="MSHTML 8.00.6001.18828">
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		ga('create', 'UA-33778994-2', 'auto');
+		ga('send', 'pageview');
+	</script>
+</head>
+<body bgcolor="#ffffff" style="FONT-FAMILY: calibri">
+	<table border="0" cellspacing="0" cellpadding="3" width="61.8%" align="center">
+	<tbody>
+	<tr><td>
+		<center>
+		<h1>EINVis</h1>
+		<p><h2>A visualization tool for analyzing and exploring genetic interactions in large-scale association studies</h2></p>
+		<h3>Yubao Wu, Xiaofeng Zhu, Jian Chen, Xiang Zhang</h3>
+		<br>
+		<img src="einvis.png"/ width = "100%" align = "center"/>
+		<br>
+		<h3>
+			<a href = index.html>Home</a> &nbsp;&nbsp;
+			<a href = docs.html>Documents</a> &nbsp;&nbsp;
+			<a href = tutorial.html>Tutorials</a> &nbsp;&nbsp;
+			<a href = pubs.html>Publication</a> &nbsp;&nbsp;
+			<a href = run.html>Run</a> &nbsp;&nbsp;
+		</h3>
+		</center>
+	</td></tr>
+	<tr><td>
+		<p style="FONT-FAMILY: calibri">The HTML version of the user manual is shown on this page. The 
+		 <a href="./docs/02EINVisUserManual.pdf">PDF</a> version is also available.</p>
+		<p><h3>1. Input Data Format</h3></p>
+		<p style="FONT-FAMILY: calibri">EINVis requires two files: Nodes file and Edges file.</p>
+		<p style="FONT-FAMILY: calibri"><strong>EIN Nodes file</strong>: Each line contains the information for one SNP. 
+		 Each line contains four tokens: chromosome id, gene name, SNPs name and single-locus test statistic. 
+		 The four tokens are separated by space symbol " ". The SNPs are ordered by their positions on the chromosomes. 
+		 One example Nodes file is shown as follows:</p>
+		<table border="1" cellspacing="0" cellpadding="3" width="40%" align="center">
+		<tbody><tr>
+			<th>Line #</th><th>chrom_id gene_name SNP_name single-locus_test_statistic</th>
+		</tr><tr align="left">
+			<td align="center">1</td><td>1 CA6 rs7513804 0.382463</td>
+		</tr><tr align="left">
+			<td align="center">2</td><td>2 IL1A rs1894399 0.712872</td>
+		</tr><tr align="left">
+			<td align="center">3</td><td>7 MTPN rs1488004 0.477534</td>
+		</tr><tr align="left">
+			<td align="center">4</td><td>11 CD3E rs3782040 0.490576</td>
+		</tr><tr align="left">
+			<td align="center">5</td><td>21 CSTB rs743466 0.12148</td>
+		</tr><tr align="left">
+			<td align="center">6</td><td>22 TIMP3 rs130293 0.889259</td>
+		</tr></tbody></table>
+		<p style="FONT-FAMILY: calibri"><strong>EIN Edges file</strong>: Each line contains a SNP-pair and its two-locus test statistic. 
+		 Each line contains three tokens: Index of the First SNP, Index of Second SNP, and Two-Locus Test Statistic. 
+		 The "Index of SNP" means the index in the list of SNPs in the "Nodes file". The index begins from "0". 
+		 The three tokens are separated by space symbol " ". The SNP-pairs are sorted in descending order by their two-locus test statistics. 
+		 One example of this file is shown as follows:</p>
+		<table border="1" cellspacing="0" cellpadding="3" width="40%" align="center">
+		<tbody><tr>
+			<th>Line #</th><th>SNP1-Index SNP2-Index two-locus_test_statistic</th>
+		</tr><tr align="left">
+			<td align="center">1</td><td>5 1 1</td>
+		</tr><tr align="left">
+			<td align="center">2</td><td>2 0 0.895698</td>
+		</tr><tr align="left">
+			<td align="center">3</td><td>2 3 0.741046</td>
+		</tr><tr align="left">
+			<td align="center">4</td><td>4 1 0.638908</td>
+		</tr><tr align="left">
+			<td align="center">5</td><td>0 5 0.000631648</td>
+		</tr><tr align="left">
+			<td align="center">6</td><td>3 4 0</td>
+		</tr></tbody></table>
+		<p style="FONT-FAMILY: calibri">From this example, we can see that the first line "5 1 1" means that 
+		 SNPs "22 TIMP3 rs130293" (the 6th line of the table for the Node file) and "2 IL1A rs1894399" (the 2nd line of the table for the Node file) 
+		 have an interaction with the test value 1.</p>
+		<p style="FONT-FAMILY: calibri">The single-locus test value should be between 0 and 1. 
+		 We recommend that the single-locus test value is normalized among the single-locus test values of all the SNPs. 
+		 Two-locus test values also should be between 0 and 1. The user can select the top ranked SNP-pairs, e.g., the top-400 SNP-pairs. 
+		 Then the two-locus test values should be normalized among the selected SNP-pairs.</p>
+		 
+		 <p style="FONT-FAMILY: calibri"><strong>LD Edges file</strong>: Each line contains a SNP-pair and its LD value. Each line contains three tokens: Index of the First SNP, Index of Second SNP, and LD value. The "Index of SNP" is the same as in "EIN Edge file", and it means the index in the list of SNPs in the "Nodes file". The index begins from "0". The three tokens are separated by space symbol " ". One example of this file is shown as follows:</p>
+		<table border="1" cellspacing="0" cellpadding="3" width="40%" align="center">
+		<tbody><tr>
+			<th>Line #</th><th>SNP1-Index SNP2-Index LD-value</th>
+		</tr><tr align="left">
+			<td align="center">1</td><td>0 4 0.5</td>
+		</tr><tr align="left">
+			<td align="center">2</td><td>2 1 0.495</td>
+		</tr><tr align="left">
+			<td align="center">3</td><td>1 3 1.0</td>
+		</tr><tr align="left">
+			<td align="center">4</td><td>4 2 0.923</td>
+		</tr><tr align="left">
+			<td align="center">5</td><td>0 2 0.054</td>
+		</tr><tr align="left">
+			<td align="center">6</td><td>1 4 0.1</td>
+		</tr></tbody></table>
+		<p style="FONT-FAMILY: calibri">The "LD value" can be a number between 0 and 1, for example, the r^2 statistic.</p>
+		 
+		 
+		<p><h3>2. User Interactions</h3></p>
+		<p style="FONT-FAMILY: calibri">EINVis provides controls over the EIN tree ring view bubble, e.g. slider, 
+		 to let user to adjust the visualization effect. 
+		 EINVis also provides mouse user interactions combined with keys pressed to select, expand or collapse the nodes.</p>
+		<p style="FONT-FAMILY: calibri">The control functions in the EIN tree ring view are listed in the following table. 
+		 You can find these controls in the controls panel (right column) in EIN tree ring view bubble.</p>
+		<table border="1" cellspacing="0" cellpadding="3" width="96%" align="center">
+		<tbody><tr>
+			<th>Control Type</th><th>Control Name</th><th>Function</th>
+		</tr><tr align="left" ROWSPAN=6>
+			<td align="center" ROWSPAN=6>Button</td><td>Choose File (Nodes File)</td><td>Choose the EIN Nodes File</td>
+		</tr><tr align="left">
+			<td>Choose File (Edges File)</td><td>Choose the EIN Edges File</td>
+		</tr><tr align="left">
+			<td>Choose File (LD Edges File)</td><td>Choose the LD Edges File</td>
+		</tr><tr align="left">
+			<td>Start Rendering</td><td>Start to render the views after user choose the Nodes File and Edges File</td>
+		</tr><tr align="left">
+			<td><font color="red">Demo</font></td><td>Start to render the demo. 
+			 EINVis will load the demo Nodes File and Edges File automatically from server.</td>
+		</tr><tr align="left">
+			<td>View Rank</td><td>Open a new webpage to show the table of rank of SNPs based on their degree.</td>
+		</tr><tr align="left" ROWSPAN=3>
+			<td align="center" ROWSPAN=3>Slider</td><td>Edge Number</td>
+			<td>Control how many edges are shown in tree ring views and matrix view.<br>
+			Minimum: 10%, Maximum: 100% (All the edges), Delta: 10%.</td>
+		</tr><tr align="left">
+			<td>Edge Bundle</td>
+			<td>Control the edge bundle strength.<br>
+			Minimum: 0.0 (Straight Line), Maximum: 1.00, Delta: 0.1.</td>
+		</tr><tr align="left">
+			<td>Font Size</td>
+			<td>Control the font size of the node name text.<br>
+			Minimum: "10 px", Maximum: "20 px", Delta: "1 px".<br>
+			When user decrease the font size, the width of three levels in the tree ring views will also decrease.</td>
+		</tr><tr align="left" ROWSPAN=2>
+			<td align="center" ROWSPAN=2>Checkbox</td><td>Node Name</td><td>Control whether or not show the node name text</td>
+		</tr><tr align="left">
+			<td>Black Background</td><td>Control whether use black background in tree ring views. 
+			 If checked, render black background, it will be much clear; if unchecked, render white background.</td>
+		</tr><tr align="left" ROWSPAN=2>
+			<td align="center" ROWSPAN=2>Drop-Down Menu</td><td>Node Color Bar</td>
+			<td>Select one Node Color bar from the drop-down menu, the contents are listed in next Table.</td>
+		</tr><tr align="left">
+			<td>Edge Color Bar</td>
+			<td>Select one Edge Color bar from the drop-down menu, the contents are listed in next Table.</td>
+		</tr><tr align="left" ROWSPAN=2>
+			<td align="center" ROWSPAN=2>Radio</td><td>Highlight Any</td>
+			<td>If user switch to this radio button, and user has selected multiple nodes, 
+			then nodes related to <strong>any</strong> of the selected nodes and induced edges will be highlighted with color.</td>
+		</tr><tr align="left">
+			<td>Highlight All</td>
+			<td>If user switch to this radio button, and user has selected multiple nodes, 
+			then nodes related to <strong>all</strong> of the selected nodes and induced edges will be highlighted with color.</td>
+		</tr><tr align="left">
+			<td align="center">Input Text Box</td><td>Search</td>
+			<td>Input the Gene name or SNPs ID in this text box, then, EINVis will highlight all the matched Genes or SNPs.</td>
+		</tr></tbody></table>
+		
+		
+		<p style="FONT-FAMILY: calibri">The mouse user interactions are listed in the following table.</p>
+		<table border="1" cellspacing="0" cellpadding="3" width="92%" align="center">
+		<tbody><tr>
+			<th>Domains</th><th>Functions</th><th>Mouse Interactions</th>
+		</tr><tr align="left" ROWSPAN=3>
+			<td align="center" ROWSPAN=3>Bubbles</td><td>Move one bubble</td><td>Drag on the frame of the bubble (the blue frame region)</td>
+		</tr><tr align="left">
+			<td>Move all bubbles</td><td>"M" key pressed + Left Button Down and Mouse Move</td>
+		</tr><tr align="left">
+			<td>Change Layer</td><td>Click on one bubble, it will become the most forward layer</td>
+		</tr><tr align="left" ROWSPAN=7>
+			<td align="center" ROWSPAN=7>EIN Tree Ring View</td><td>Expand one node</td><td>Left Button Down in one ring sector region</td>
+		</tr><tr align="left">
+			<td>Collapse one node</td><td>"C" key pressed + Left Button Down in one ring sector region</td>
+		</tr><tr align="left">
+			<td>Select one node</td><td>"S" key are pressed + Left Button Down in one ring sector region</td>
+		</tr><tr align="left">
+			<td>Unselect one node</td><td>"U" key pressed + Left Button Down in one ring sector region</td>
+		</tr><tr align="left">
+			<td>Link to NCBI Database</td><td>"L" key are pressed + Left Button Down in one ring sector region, 
+			 then it will link to NCBI database.</td>
+		</tr><tr align="left">
+			<td>Mouse over Node</td><td>The marginal test statistic will be shown in the up right corner.</td>
+		</tr><tr align="left">
+			<td>Mouse over Edge</td><td>The two-locus test statistic will be shown in the up right corner.</td>
+		</tr><tr align="left">
+			<td align="center">EIN Matrix View</td><td>Pan the matrix</td><td>Left Button Down + Mouse Move (Drag mouse) in the Inner Matrix View Region</td>
+		</tr><tr align="left">
+			<td align="center">LD Tree Ring View</td><td>Mouse over Edge</td><td>The LD value will be shown in the up right corner</td>
+		</tr></tbody></table>
+		
+		<p style="FONT-FAMILY: calibri">The color bar drop-down menu contains the items listed in the following Table.</p>
+		<table border="1" cellspacing="0" cellpadding="3" width="50%" align="center">
+		<tbody><tr>
+			<th>Item Names</th><th>Color Bars</th>
+		</tr><tr align="left">
+			<td>Sequential YIGn</td><td align="center"><img src="ColorBar01.PNG" width = "200" align = "center"/></td>
+		</tr><tr align="left">
+			<td>Sequential YIGnBu</td><td align="center"><img src="ColorBar02.PNG" width = "200" align = "center"/></td>
+		</tr><tr align="left">
+			<td>Sequential YIOrBr</td><td align="center"><img src="ColorBar03.PNG" width = "200" align = "center"/></td>
+		</tr><tr align="left">
+			<td>Sequential YIOrRd</td><td align="center"><img src="ColorBar04.PNG" width = "200" align = "center"/></td>
+		</tr><tr align="left">
+			<td>Sequential PuRd</td><td align="center"><img src="ColorBar05.PNG" width = "200" align = "center"/></td>
+		</tr><tr align="left">
+			<td>Sequential Greys</td><td align="center"><img src="ColorBar06.PNG" width = "200" align = "center"/></td>
+		</tr><tr align="left">
+			<td>Diverging PiYG</td><td align="center"><img src="ColorBar07.PNG" width = "200" align = "center"/></td>
+		</tr><tr align="left">
+			<td>Diverging PRGn</td><td align="center"><img src="ColorBar08.PNG" width = "200" align = "center"/></td>
+		</tr><tr align="left">
+			<td>Diverging PuOr</td><td align="center"><img src="ColorBar09.PNG" width = "200" align = "center"/></td>
+		</tr><tr align="left">
+			<td>Diverging RdBu</td><td align="center"><img src="ColorBar10.PNG" width = "200" align = "center"/></td>
+		</tr><tr align="left">
+			<td>Diverging RdYIBu</td><td align="center"><img src="ColorBar11.PNG" width = "200" align = "center"/></td>
+		</tr><tr align="left">
+			<td>Diverging RdYIGn</td><td align="center"><img src="ColorBar12.PNG" width = "200" align = "center"/></td>
+		</tr><tr align="left">
+			<td>Continuous RdGn</td><td align="center"><img src="ColorBar13.PNG" width = "200" align = "center"/></td>
+		</tr></tbody></table>
+		<p style="FONT-FAMILY: calibri">Note: the "Sequential ..." and "Diverging ..." color bars 
+		 are selected from <a href="http://colorbrewer2.org/">ColorBrewer</a> website.</p>
+		<p style="FONT-FAMILY: calibri">The node and edge color bar drop-down menu share the common items
+		 in the above Table. However, they are independent. If you change node color bar, it will not affect the edge color.</p>
+	</td></tr>
+	</tbody></table>
+</body>
+</html>
